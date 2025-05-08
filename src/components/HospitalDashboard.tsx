@@ -1,34 +1,10 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-
-// import { Card, CardContent, StatCard } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Mic } from "lucide-react";
-// import { User } from "lucide-react";
-
-
-// <StatCard title="Patients Waiting" value="12" icon={<User />} />
-
-// const mockQueue = [
-//   { name: "John Doe", department: "ER", waitTime: "15 mins" },
-//   { name: "Rita Patel", department: "OPD", waitTime: "25 mins" },
-//   { name: "A. Sharma", department: "Cardiology", waitTime: "10 mins" },
-// ];
-
-// const mockInventory = [
-//   { item: "Oxygen Cylinders", stock: 4 },
-//   { item: "Surgical Gloves", stock: 200 },
-//   { item: "Paracetamol Syrup", stock: 12 },
-//   { item: "IV Kits", stock: 3 },
-// ];
-
-
 
 interface Patient {
   id: string;
@@ -58,19 +34,17 @@ const HospitalDashboard = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedPriority, setSelectedPriority] = useState<'High' | 'Medium' | 'Low'>('Medium');
 
-  // Calculate average wait time based on current queue
   const calculateWaitTime = (department: string, priority: 'High' | 'Medium' | 'Low'): number => {
     const departmentPatients = patients.filter(p => p.department === department);
-    const baseWaitTime = departmentPatients.length * 15; // 15 minutes per patient
-    
-    // Adjust wait time based on priority
+    const baseWaitTime = departmentPatients.length * 15;
+
     switch (priority) {
       case 'High':
-        return Math.max(5, baseWaitTime * 0.5); // 50% of normal wait time, minimum 5 minutes
+        return Math.max(5, baseWaitTime * 0.5);
       case 'Medium':
         return baseWaitTime;
       case 'Low':
-        return baseWaitTime * 1.5; // 150% of normal wait time
+        return baseWaitTime * 1.5;
     }
   };
 
@@ -95,42 +69,43 @@ const HospitalDashboard = () => {
   };
 
   const handleStatusChange = (patientId: string, newStatus: 'Waiting' | 'In Progress' | 'Completed') => {
-    setPatients(patients.map(patient => 
+    setPatients(patients.map(patient =>
       patient.id === patientId ? { ...patient, status: newStatus } : patient
     ));
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Waiting': return 'bg-yellow-100 text-yellow-800';
-      case 'In Progress': return 'bg-blue-100 text-blue-800';
-      case 'Completed': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Waiting': return 'bg-yellow-100 text-yellow-900';
+      case 'In Progress': return 'bg-blue-100 text-blue-900';
+      case 'Completed': return 'bg-green-100 text-green-900';
+      default: return 'bg-gray-100 text-gray-900';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-100 text-red-800';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800';
-      case 'Low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'High': return 'bg-red-100 text-red-900';
+      case 'Medium': return 'bg-yellow-100 text-yellow-900';
+      case 'Low': return 'bg-green-100 text-green-900';
+      default: return 'bg-gray-100 text-gray-900';
     }
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardContent className="space-y-4">
-          <h2 className="text-xl font-semibold">Smart Patient Queue System</h2>
+    <div className="max-w-6xl mx-auto px-4 py-10 space-y-8">
+      <Card className="shadow-xl border border-gray-200">
+        <CardContent className="space-y-6 py-6">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-800">🏥 Smart Patient Queue System</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Input
               placeholder="Enter patient name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="rounded-xl"
             />
             <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-              <SelectTrigger>
+              <SelectTrigger className="rounded-xl">
                 <SelectValue placeholder="Select Department" />
               </SelectTrigger>
               <SelectContent>
@@ -140,7 +115,7 @@ const HospitalDashboard = () => {
               </SelectContent>
             </Select>
             <Select value={selectedPriority} onValueChange={(value: 'High' | 'Medium' | 'Low') => setSelectedPriority(value)}>
-              <SelectTrigger>
+              <SelectTrigger className="rounded-xl">
                 <SelectValue placeholder="Select Priority" />
               </SelectTrigger>
               <SelectContent>
@@ -149,53 +124,56 @@ const HospitalDashboard = () => {
                 <SelectItem value="Low">Low Priority</SelectItem>
               </SelectContent>
             </Select>
-            <Button onClick={handleAddPatient}>Add to Queue</Button>
+            <Button onClick={handleAddPatient} className="rounded-xl">Add to Queue</Button>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-4">
             {patients.length === 0 ? (
-              <p className="text-gray-500">No patients in queue.</p>
+              <p className="text-gray-500 text-center py-8">No patients in queue.</p>
             ) : (
               patients.map((patient) => (
                 <div
                   key={patient.id}
-                  className="p-4 border rounded-lg bg-white shadow-sm"
+                  className="p-5 rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md"
                 >
                   <div className="flex justify-between items-start">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold">#{patient.queueNumber}</span>
-                        <span className="font-medium">{patient.name}</span>
-                        <Badge className={getPriorityColor(patient.priority)}>
+                    <div className="space-y-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-lg font-semibold text-gray-700">#{patient.queueNumber}</span>
+                        <span className="font-medium text-gray-800">{patient.name}</span>
+                        <Badge className={`rounded-md ${getPriorityColor(patient.priority)}`}>
                           {patient.priority} Priority
                         </Badge>
-                        <Badge className={getStatusColor(patient.status)}>
+                        <Badge className={`rounded-md ${getStatusColor(patient.status)}`}>
                           {patient.status}
                         </Badge>
                       </div>
-                      <div className="text-sm text-gray-600 mt-1">
-                        Department: {patient.department}
+                      <div className="text-sm text-gray-600">
+                        Department: <span className="font-medium">{patient.department}</span>
                       </div>
                       <div className="text-sm text-gray-600">
-                        Check-in: {patient.checkInTime.toLocaleTimeString()}
+                        Check-in: <span className="font-mono">{patient.checkInTime.toLocaleTimeString()}</span>
                       </div>
                       <div className="text-sm text-gray-600">
-                        Est. Wait: {patient.estimatedWaitTime} minutes
+                        Est. Wait: <span className="font-semibold">{patient.estimatedWaitTime} mins</span>
                       </div>
                     </div>
                     <div className="flex gap-2">
                       {patient.status === 'Waiting' && (
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
+                          className="rounded-xl"
                           onClick={() => handleStatusChange(patient.id, 'In Progress')}
                         >
                           Start Consultation
                         </Button>
                       )}
                       {patient.status === 'In Progress' && (
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
+                          className="rounded-xl"
                           onClick={() => handleStatusChange(patient.id, 'Completed')}
                         >
                           Complete
@@ -214,59 +192,3 @@ const HospitalDashboard = () => {
 };
 
 export default HospitalDashboard;
-
-
-// export default function HospitalDashboard() {
-//   return (
-//     <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-//       {/* Queue Management Section */}
-//       <Card className="rounded-2xl shadow-lg">
-//         <CardContent className="p-4">
-//           <h2 className="text-xl font-bold mb-4">🧑‍⚕ Patient Queue Overview</h2>
-//           {mockQueue.map((patient, i) => (
-//             <div key={i} className="mb-2 p-3 bg-gray-100 rounded-xl">
-//               <div className="font-semibold">{patient.name}</div>
-//               <div className="text-sm text-gray-600">
-//                 Dept: {patient.department} | Wait: {patient.waitTime}
-//               </div>
-//             </div>
-//           ))}
-//         </CardContent>
-//       </Card>
-
-//       {/* Inventory Status Section */}
-//       <Card className="rounded-2xl shadow-lg">
-//         <CardContent className="p-4">
-//           <h2 className="text-xl font-bold mb-4">📦 Inventory Status</h2>
-//           {mockInventory.map((item, i) => (
-//             <div
-//               key={i}
-//               className={`mb-2 p-3 rounded-xl ${
-//                 item.stock < 10 ? "bg-red-100" : "bg-green-100"
-//               }`}
-//             >
-//               <div className="font-semibold">{item.item}</div>
-//               <div className="text-sm text-gray-700">
-//                 Stock: {item.stock} units
-//               </div>
-//             </div>
-//           ))}
-//         </CardContent>
-//       </Card>
-
-//       {/* Voice Command Section */}
-//       <Card className="col-span-1 md:col-span-2 rounded-2xl shadow-lg">
-//         <CardContent className="p-4">
-//           <h2 className="text-xl font-bold mb-2">🎤 Voice Assistant (Demo)</h2>
-//           <div className="flex items-center gap-2">
-//             <Input placeholder="Ask about stock, queue..." className="w-full" />
-//             <Button variant="outline" className="rounded-full">
-//               <Mic size={20} />
-//             </Button>
-//           </div>
-//           <p>Try commands like: &quot;Show ER wait time&quot; or &quot;Do we have paracetamol?&quot;</p>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// }
