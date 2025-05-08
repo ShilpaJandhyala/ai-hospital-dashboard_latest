@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import HospitalDashboard from "../components/HospitalDashboard";
 
 export default function Home() {
