@@ -1,8 +1,10 @@
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, StatCard } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mic } from "lucide-react";
+
+<StatCard title="Patients Waiting" value="12" icon={<UserIcon />} />
 
 const mockQueue = [
   { name: "John Doe", department: "ER", waitTime: "15 mins" },
