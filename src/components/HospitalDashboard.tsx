@@ -67,7 +67,7 @@ const HospitalDashboard = () => {
     if (!name || !selectedDepartment || !selectedPriority) return;
   
     const newPatient: Patient = {
-      id: patients.length + 1,
+      id: Date.now().toString(),
       name,
       department: selectedDepartment,
       priority: selectedPriority,
