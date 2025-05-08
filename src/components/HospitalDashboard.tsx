@@ -1,25 +1,25 @@
 import React from "react";
-import { Card, CardContent, StatCard } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mic } from "lucide-react";
-import { User } from "lucide-react";
+// import { Card, CardContent, StatCard } from "@/components/ui/card";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Mic } from "lucide-react";
+// import { User } from "lucide-react";
 
 
-<StatCard title="Patients Waiting" value="12" icon={<User />} />
+// <StatCard title="Patients Waiting" value="12" icon={<User />} />
 
-const mockQueue = [
-  { name: "John Doe", department: "ER", waitTime: "15 mins" },
-  { name: "Rita Patel", department: "OPD", waitTime: "25 mins" },
-  { name: "A. Sharma", department: "Cardiology", waitTime: "10 mins" },
-];
+// const mockQueue = [
+//   { name: "John Doe", department: "ER", waitTime: "15 mins" },
+//   { name: "Rita Patel", department: "OPD", waitTime: "25 mins" },
+//   { name: "A. Sharma", department: "Cardiology", waitTime: "10 mins" },
+// ];
 
-const mockInventory = [
-  { item: "Oxygen Cylinders", stock: 4 },
-  { item: "Surgical Gloves", stock: 200 },
-  { item: "Paracetamol Syrup", stock: 12 },
-  { item: "IV Kits", stock: 3 },
-];
+// const mockInventory = [
+//   { item: "Oxygen Cylinders", stock: 4 },
+//   { item: "Surgical Gloves", stock: 200 },
+//   { item: "Paracetamol Syrup", stock: 12 },
+//   { item: "IV Kits", stock: 3 },
+// ];
 
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
