@@ -50,25 +50,37 @@ const HospitalDashboard = () => {
     }
   };
 
-  const handleAddPatient = () => {
-    if (name.trim() === "" || selectedDepartment === "") return;
+  const getEstimatedWaitTime = (priority: "High" | "Medium" | "Low") => {
+    switch (priority) {
+      case "High":
+        return Math.floor(Math.random() * 5) + 1; // 1–5 mins
+      case "Medium":
+        return Math.floor(Math.random() * 10) + 6; // 6–15 mins
+      case "Low":
+        return Math.floor(Math.random() * 15) + 16; // 16–30 mins
+      default:
+        return 10;
+    }
+  };
 
+  const handleAddPatient = () => {
+    if (!name || !selectedDepartment || !selectedPriority) return;
+  
     const newPatient: Patient = {
-      id: Date.now().toString(),
+      id: patients.length + 1,
       name,
-      queueNumber: patients.length + 1,
       department: selectedDepartment,
       priority: selectedPriority,
-      status: 'Waiting',
       checkInTime: new Date(),
-      estimatedWaitTime: calculateWaitTime(selectedDepartment, selectedPriority)
+      status: "Waiting",
+      queueNumber: patients.length + 1,
+      estimatedWaitTime: getEstimatedWaitTime(selectedPriority),
     };
-
+  
     setPatients([...patients, newPatient]);
-    setName("");
-    setSelectedDepartment("");
-    setSelectedPriority('Medium');
+    setName(""); setSelectedDepartment(""); setSelectedPriority("");
   };
+  
 
   const handleStatusChange = (patientId: string, newStatus: 'Waiting' | 'In Progress' | 'Completed') => {
     setPatients(patients.map(patient => 
