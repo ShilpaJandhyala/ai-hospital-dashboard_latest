@@ -1,4 +1,10 @@
+'use client';
 import React from "react";
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
 // import { Card, CardContent, StatCard } from "@/components/ui/card";
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
@@ -21,10 +27,7 @@ import React from "react";
 //   { item: "IV Kits", stock: 3 },
 // ];
 
-import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 
 interface Patient {
   name: string;
