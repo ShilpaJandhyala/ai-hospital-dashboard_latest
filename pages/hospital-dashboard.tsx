@@ -3,8 +3,10 @@ import { Card, CardContent, StatCard } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mic } from "lucide-react";
+import { User } from "lucide-react";
 
-<StatCard title="Patients Waiting" value="12" icon={<UserIcon />} />
+
+<StatCard title="Patients Waiting" value="12" icon={<User />} />
 
 const mockQueue = [
   { name: "John Doe", department: "ER", waitTime: "15 mins" },
@@ -67,9 +69,7 @@ export default function HospitalDashboard() {
               <Mic size={20} />
             </Button>
           </div>
-          <p className="text-sm text-gray-600 mt-2">
-            Try commands like: "Show ER wait time" or "Do we have paracetamol?"
-          </p>
+          <p>Try commands like: &quot;Show ER wait time&quot; or &quot;Do we have paracetamol?&quot;</p>
         </CardContent>
       </Card>
     </div>
