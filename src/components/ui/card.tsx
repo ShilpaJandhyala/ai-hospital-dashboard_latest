@@ -19,4 +19,4 @@ const Card: React.FC<CardProps> = ({ title, value, icon, className = "" }) => {
   );
 };
 
-export default Card;
+export default Card, CardContent;
