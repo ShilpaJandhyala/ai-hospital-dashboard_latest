@@ -19,4 +19,10 @@ const Card: React.FC<CardProps> = ({ title, value, icon, className = "" }) => {
   );
 };
 
-export default Card, CardContent;
+export const Card = ({ children, className = "" }: any) => (
+  <div className={`bg-white p-4 rounded-2xl shadow ${className}`}>{children}</div>
+);
+
+export const CardContent = ({ children, className = "" }: any) => (
+  <div className={className}>{children}</div>
+);
