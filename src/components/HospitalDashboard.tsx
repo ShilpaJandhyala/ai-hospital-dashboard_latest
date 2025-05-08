@@ -95,104 +95,114 @@ const HospitalDashboard = () => {
   };
 
   return (
-    <div 
-      className="space-y-6"
-      style={{
-        backgroundImage: 'url("/background.png")', // Path to your PNG image
-        backgroundSize: 'cover', // Ensure the image covers the entire container
-        backgroundPosition: 'center', // Center the background
-        backgroundRepeat: 'no-repeat', // Prevent repeating the image
-      }}
-    >
-      <Card>
-        <CardContent className="space-y-4">
-          <h2 className="text-xl font-semibold">Smart Patient Queue System</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Input
-              placeholder="Enter patient name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Department" />
-              </SelectTrigger>
-              <SelectContent>
-                {departments.map((dept) => (
-                  <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={selectedPriority} onValueChange={(value: 'High' | 'Medium' | 'Low') => setSelectedPriority(value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="High">High Priority</SelectItem>
-                <SelectItem value="Medium">Medium Priority</SelectItem>
-                <SelectItem value="Low">Low Priority</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button onClick={handleAddPatient}>Add to Queue</Button>
-          </div>
-          <div className="space-y-2">
-            {patients.length === 0 ? (
-              <p className="text-gray-500">No patients in queue.</p>
-            ) : (
-              patients.map((patient) => (
-                <div
-                  key={patient.id}
-                  className="p-4 border rounded-lg bg-white shadow-sm"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold">#{patient.queueNumber}</span>
-                        <span className="font-medium">{patient.name}</span>
-                        <Badge className={getPriorityColor(patient.priority)}>
-                          {patient.priority} Priority
-                        </Badge>
-                        <Badge className={getStatusColor(patient.status)}>
-                          {patient.status}
-                        </Badge>
+    <div className="relative min-h-screen">
+      {/* Background image applied to the entire screen */}
+      <div
+        style={{
+          backgroundImage: 'url("/background.png")', 
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          width: '100%', 
+          height: '100%',
+          zIndex: -1, // Ensure the background stays behind the content
+        }}
+      ></div>
+
+      <div className="space-y-6 relative z-10">
+        <Card>
+          <CardContent className="space-y-4">
+            <h2 className="text-xl font-semibold">Smart Patient Queue System</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Input
+                placeholder="Enter patient name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Department" />
+                </SelectTrigger>
+                <SelectContent>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={selectedPriority} onValueChange={(value: 'High' | 'Medium' | 'Low') => setSelectedPriority(value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="High">High Priority</SelectItem>
+                  <SelectItem value="Medium">Medium Priority</SelectItem>
+                  <SelectItem value="Low">Low Priority</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button onClick={handleAddPatient}>Add to Queue</Button>
+            </div>
+            <div className="space-y-2">
+              {patients.length === 0 ? (
+                <p className="text-gray-500">No patients in queue.</p>
+              ) : (
+                patients.map((patient) => (
+                  <div
+                    key={patient.id}
+                    className="p-4 border rounded-lg bg-white shadow-sm"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold">#{patient.queueNumber}</span>
+                          <span className="font-medium">{patient.name}</span>
+                          <Badge className={getPriorityColor(patient.priority)}>
+                            {patient.priority} Priority
+                          </Badge>
+                          <Badge className={getStatusColor(patient.status)}>
+                            {patient.status}
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          Department: {patient.department}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Check-in: {patient.checkInTime.toLocaleTimeString()}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                          Est. Wait: {patient.estimatedWaitTime} minutes
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-600 mt-1">
-                        Department: {patient.department}
+                      <div className="flex gap-2">
+                        {patient.status === 'Waiting' && (
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleStatusChange(patient.id, 'In Progress')}
+                          >
+                            Start Consultation
+                          </Button>
+                        )}
+                        {patient.status === 'In Progress' && (
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleStatusChange(patient.id, 'Completed')}
+                          >
+                            Complete
+                          </Button>
+                        )}
                       </div>
-                      <div className="text-sm text-gray-600">
-                        Check-in: {patient.checkInTime.toLocaleTimeString()}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        Est. Wait: {patient.estimatedWaitTime} minutes
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      {patient.status === 'Waiting' && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleStatusChange(patient.id, 'In Progress')}
-                        >
-                          Start Consultation
-                        </Button>
-                      )}
-                      {patient.status === 'In Progress' && (
-                        <Button 
-                          size="sm" 
-                          variant="outline"
-                          onClick={() => handleStatusChange(patient.id, 'Completed')}
-                        >
-                          Complete
-                        </Button>
-                      )}
                     </div>
                   </div>
-                </div>
-              ))
-            )}
-          </div>
-        </CardContent>
-      </Card>
+                ))
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
