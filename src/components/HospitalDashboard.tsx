@@ -34,21 +34,21 @@ const HospitalDashboard = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedPriority, setSelectedPriority] = useState<'High' | 'Medium' | 'Low'>('Medium');
 
-  // Calculate average wait time based on current queue
-  const calculateWaitTime = (department: string, priority: 'High' | 'Medium' | 'Low'): number => {
-    const departmentPatients = patients.filter(p => p.department === department);
-    const baseWaitTime = departmentPatients.length * 15; // 15 minutes per patient
+  // // Calculate average wait time based on current queue
+  // const calculateWaitTime = (department: string, priority: 'High' | 'Medium' | 'Low'): number => {
+  //   const departmentPatients = patients.filter(p => p.department === department);
+  //   const baseWaitTime = departmentPatients.length * 15; // 15 minutes per patient
     
-    // Adjust wait time based on priority
-    switch (priority) {
-      case 'High':
-        return Math.max(5, baseWaitTime * 0.5); // 50% of normal wait time, minimum 5 minutes
-      case 'Medium':
-        return baseWaitTime;
-      case 'Low':
-        return baseWaitTime * 1.5; // 150% of normal wait time
-    }
-  };
+  //   // Adjust wait time based on priority
+  //   switch (priority) {
+  //     case 'High':
+  //       return Math.max(5, baseWaitTime * 0.5); // 50% of normal wait time, minimum 5 minutes
+  //     case 'Medium':
+  //       return baseWaitTime;
+  //     case 'Low':
+  //       return baseWaitTime * 1.5; // 150% of normal wait time
+  //   }
+  // };
 
   const getEstimatedWaitTime = (priority: "High" | "Medium" | "Low") => {
     switch (priority) {
