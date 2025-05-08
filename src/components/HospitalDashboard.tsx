@@ -1,33 +1,3 @@
-'use client';
-import React, { useState} from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-
-interface Patient {
-  id: string;
-  name: string;
-  queueNumber: number;
-  department: string;
-  priority: 'High' | 'Medium' | 'Low';
-  status: 'Waiting' | 'In Progress' | 'Completed';
-  checkInTime: Date;
-  estimatedWaitTime: number; // in minutes
-}
-
-const departments = [
-  'General Medicine',
-  'Pediatrics',
-  'Orthopedics',
-  'Cardiology',
-  'Dermatology',
-  'ENT',
-  'Ophthalmology',
-  'Gynecology'
-];
-
 const HospitalDashboard = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [name, setName] = useState("");
@@ -113,7 +83,7 @@ const HospitalDashboard = () => {
       ></div>
 
       <div className="space-y-6 relative z-10">
-        <Card>
+        <Card className="bg-transparent shadow-none">
           <CardContent className="space-y-4">
             <h2 className="text-xl font-semibold">Smart Patient Queue System</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
