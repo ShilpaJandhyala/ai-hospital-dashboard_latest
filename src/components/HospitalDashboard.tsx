@@ -1,3 +1,33 @@
+'use client';
+import React, { useState} from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+
+interface Patient {
+  id: string;
+  name: string;
+  queueNumber: number;
+  department: string;
+  priority: 'High' | 'Medium' | 'Low';
+  status: 'Waiting' | 'In Progress' | 'Completed';
+  checkInTime: Date;
+  estimatedWaitTime: number; // in minutes
+}
+
+const departments = [
+  'General Medicine',
+  'Pediatrics',
+  'Orthopedics',
+  'Cardiology',
+  'Dermatology',
+  'ENT',
+  'Ophthalmology',
+  'Gynecology'
+];
+
 const HospitalDashboard = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [name, setName] = useState("");
@@ -48,49 +78,35 @@ const HospitalDashboard = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Waiting': return 'bg-yellow-100 text-yellow-800';
-      case 'In Progress': return 'bg-blue-100 text-blue-800';
-      case 'Completed': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Waiting': return 'bg-yellow-400 text-white';
+      case 'In Progress': return 'bg-blue-500 text-white';
+      case 'Completed': return 'bg-green-500 text-white';
+      default: return 'bg-gray-500 text-white';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-100 text-red-800';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800';
-      case 'Low': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'High': return 'bg-red-500 text-white';
+      case 'Medium': return 'bg-yellow-400 text-white';
+      case 'Low': return 'bg-teal-500 text-white';
+      default: return 'bg-gray-500 text-white';
     }
   };
 
   return (
-    <div className="relative min-h-screen">
-      {/* Background image applied to the entire screen */}
-      <div
-        style={{
-          backgroundImage: 'url("/background.png")', 
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '100%',
-          zIndex: -1, // Ensure the background stays behind the content
-        }}
-      ></div>
-
-      <div className="space-y-6 relative z-10">
-        <Card className="bg-transparent shadow-none">
+    <div className="relative min-h-screen bg-gradient-to-r from-teal-400 to-white-700 p-8">
+      <div className="space-y-6 relative max-w-5xl mx-auto">
+        {/* Fixed Header Section */}
+        <Card className="bg-white shadow-lg rounded-3xl p-6 border border-gray-300 sticky top-8 z-10">
           <CardContent className="space-y-4">
-            <h2 className="text-xl font-semibold">Smart Patient Queue System</h2>
+            <h2 className="text-3xl font-extrabold text-teal-700 text-center">Smart Patient Queue System</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Input
                 placeholder="Enter patient name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="p-3 rounded-lg bg-transparent text-teal-700 border-2 border-gray-300"
               />
               <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                 <SelectTrigger>
@@ -112,66 +128,49 @@ const HospitalDashboard = () => {
                   <SelectItem value="Low">Low Priority</SelectItem>
                 </SelectContent>
               </Select>
-              <Button onClick={handleAddPatient}>Add to Queue</Button>
-            </div>
-            <div className="space-y-2">
-              {patients.length === 0 ? (
-                <p className="text-gray-500">No patients in queue.</p>
-              ) : (
-                patients.map((patient) => (
-                  <div
-                    key={patient.id}
-                    className="p-4 border rounded-lg bg-white shadow-sm"
-                  >
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold">#{patient.queueNumber}</span>
-                          <span className="font-medium">{patient.name}</span>
-                          <Badge className={getPriorityColor(patient.priority)}>
-                            {patient.priority} Priority
-                          </Badge>
-                          <Badge className={getStatusColor(patient.status)}>
-                            {patient.status}
-                          </Badge>
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          Department: {patient.department}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Check-in: {patient.checkInTime.toLocaleTimeString()}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          Est. Wait: {patient.estimatedWaitTime} minutes
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        {patient.status === 'Waiting' && (
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => handleStatusChange(patient.id, 'In Progress')}
-                          >
-                            Start Consultation
-                          </Button>
-                        )}
-                        {patient.status === 'In Progress' && (
-                          <Button 
-                            size="sm" 
-                            variant="outline"
-                            onClick={() => handleStatusChange(patient.id, 'Completed')}
-                          >
-                            Complete
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
+              <Button onClick={handleAddPatient} className="bg-teal-600 text-white hover:bg-teal-700">
+                Add to Queue
+              </Button>
             </div>
           </CardContent>
         </Card>
+
+        {/* Scrollable Patient Queue Section */}
+        <div className="h-[70vh] overflow-y-auto rounded-xl p-4 bg-white bg-opacity-70 shadow-inner">
+          {patients.length === 0 ? (
+            <p className="text-gray-500 text-center">No patients in queue.</p>
+          ) : (
+            patients.map((patient) => (
+              <div key={patient.id} className="p-4 border rounded-lg bg-white shadow-md mb-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-teal-700">#{patient.queueNumber}</span>
+                      <span className="font-medium text-teal-700">{patient.name}</span>
+                      <Badge className={getPriorityColor(patient.priority)}>{patient.priority} Priority</Badge>
+                      <Badge className={getStatusColor(patient.status)}>{patient.status}</Badge>
+                    </div>
+                    <div className="text-sm text-gray-500 mt-1">Department: {patient.department}</div>
+                    <div className="text-sm text-gray-500">Check-in: {patient.checkInTime.toLocaleTimeString()}</div>
+                    <div className="text-sm text-gray-500">Est. Wait: {patient.estimatedWaitTime} minutes</div>
+                  </div>
+                  <div className="flex gap-2">
+                    {patient.status === 'Waiting' && (
+                      <Button size="sm" className="bg-teal-600 text-white" onClick={() => handleStatusChange(patient.id, 'In Progress')}>
+                        Start Consultation
+                      </Button>
+                    )}
+                    {patient.status === 'In Progress' && (
+                      <Button size="sm" className="bg-green-500 text-white" onClick={() => handleStatusChange(patient.id, 'Completed')}>
+                        Complete
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
